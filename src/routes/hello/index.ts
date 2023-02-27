@@ -30,6 +30,7 @@ const routeOptions: RouteShorthandOptions = {
 const example: FastifyPluginAsync = async (fastify: FastifyInstance, opts: FastifyServerOptions): Promise<void> => {
   fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
     request.log.debug(null, "GGGGGGG: %s ", "123")
+    fastify.counter().inc()
     return 'this is an GGGFFGG'
   })
 
