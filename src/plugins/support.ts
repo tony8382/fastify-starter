@@ -13,12 +13,13 @@ export default fp<SupportPluginOptions>(async (fastify, opts) => {
     return 'hugs'
   })
 
-  fastify.decorate('counter', function () {
-    return new Counter({
-      name: 'my_custom_metric',
-      help: 'This is my custom metric'
-    });
-  })
+  // Register a custom metric
+  const counter: Counter = new Counter({
+    name: 'my_custom_metric',
+    help: 'This is my custom metric'
+  });
+
+  fastify.decorate('counter', () => counter)
 
 })
 
