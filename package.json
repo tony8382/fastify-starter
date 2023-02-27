@@ -24,6 +24,7 @@
     "@sinclair/typebox": "^0.25.24",
     "fastify": "^4.0.0",
     "fastify-cli": "^5.7.1",
+    "fastify-custom-healthcheck": "^3.1.0",
     "fastify-metrics": "^10.0.3",
     "fastify-plugin": "^4.0.0"
   },
