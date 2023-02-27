@@ -21,7 +21,7 @@ const example: FastifyPluginAsync = async (fastify: FastifyInstance, opts: Fasti
   fastify.get('/:name', async (request: HelloRequest, reply: FastifyReply) => {
     const { name } = request.params;
     const { test, test2 } = request.query;
-
+    request.log.info("AAA: %s", fastify.someSupport())
     request.log.info("GGGGGGG: %s, test:%s, test2:%s ", name, test, test2)
     return {
       name,
