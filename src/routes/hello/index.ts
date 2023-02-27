@@ -7,7 +7,12 @@ type HelloRequest = FastifyRequest<{
     test2: string
   }
 }>
-
+type HelloSubmitRequest = FastifyRequest<{
+  Body: HelloSubmitRequestBody
+}>
+type HelloSubmitRequestBody = {
+  test: string
+}
 const example: FastifyPluginAsync = async (fastify: FastifyInstance, opts: FastifyServerOptions): Promise<void> => {
   fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
     request.log.debug(null, "GGGGGGG: %s ", "123")
@@ -22,6 +27,13 @@ const example: FastifyPluginAsync = async (fastify: FastifyInstance, opts: Fasti
       name,
       test,
       test2
+    }
+  })
+  fastify.post('/submit', async (request: HelloSubmitRequest, reply: FastifyReply) => {
+    const body: HelloSubmitRequestBody = request.body
+    request.log.info("Submit: %s", JSON.stringify(body))
+    return {
+      ok: true
     }
   })
 }
