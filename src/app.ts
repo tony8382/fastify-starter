@@ -1,6 +1,7 @@
 import AutoLoad, { AutoloadPluginOptions } from '@fastify/autoload';
 import { FastifyInstance, FastifyPluginAsync } from "fastify";
 import { join } from 'path';
+import fastifyMetric from 'fastify-metrics'
 
 export type AppOptions = {
   // Place your custom options for app below here.
@@ -16,6 +17,8 @@ const app: FastifyPluginAsync<AppOptions> = async (
   opts: AppOptions
 ): Promise<void> => {
   // Place here your custom code!
+
+  fastify.register(fastifyMetric, { endpoint: '/metrics' })
 
   // Do not touch the following lines
 
