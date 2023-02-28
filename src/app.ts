@@ -1,9 +1,10 @@
 import AutoLoad, { AutoloadPluginOptions } from '@fastify/autoload';
+import fastifyJwt from '@fastify/jwt';
 import { FastifyInstance, FastifyPluginAsync } from "fastify";
+import customHealthCheck from 'fastify-custom-healthcheck';
+import fastifyGracefulShutdown from 'fastify-graceful-shutdown';
+import fastifyMetric from 'fastify-metrics';
 import { join } from 'path';
-import fastifyMetric from 'fastify-metrics'
-import customHealthCheck from 'fastify-custom-healthcheck'
-import fastifyGracefulShutdown from 'fastify-graceful-shutdown'
 
 export type AppOptions = {
   // Place your custom options for app below here.
@@ -23,6 +24,10 @@ const app: FastifyPluginAsync<AppOptions> = async (
   fastify.register(fastifyMetric, { endpoint: '/metrics' })
   fastify.register(customHealthCheck, { path: '/health' })
   fastify.register(fastifyGracefulShutdown)
+  fastify.register(fastifyJwt, { 
+    secret: 'supersecret'
+  })
+
 
   fastify.after(() => {
     fastify.gracefulShutdown((signal, next) => {
@@ -51,4 +56,5 @@ const app: FastifyPluginAsync<AppOptions> = async (
 };
 
 export default app;
-export { app, options }
+export { app, options };
+
