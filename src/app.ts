@@ -24,10 +24,19 @@ const app: FastifyPluginAsync<AppOptions> = async (
   fastify.register(fastifyMetric, { endpoint: '/metrics' })
   fastify.register(customHealthCheck, { path: '/health' })
   fastify.register(fastifyGracefulShutdown)
-  fastify.register(fastifyJwt, { 
+  fastify.register(fastifyJwt, {
     secret: 'supersecret'
   })
 
+  fastify.addHook("onRequest", async (request, reply) => {
+    try {
+      fastify.log.info("GGGG %s", request.routerPath);
+      if ("/jwt/sign" == request.routerPath) return
+      await request.jwtVerify()
+    } catch (err) {
+      reply.send(err)
+    }
+  })
 
   fastify.after(() => {
     fastify.gracefulShutdown((signal, next) => {
