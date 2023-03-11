@@ -8,11 +8,16 @@ import { join } from 'path';
 
 export type AppOptions = {
   // Place your custom options for app below here.
+  logger: any
 } & Partial<AutoloadPluginOptions>;
 
 
 // Pass --options via CLI arguments in command to enable these options.
 const options: AppOptions = {
+  logger: {
+    level: 'info',
+    file: 'logFile/app.log',
+  }
 }
 
 const app: FastifyPluginAsync<AppOptions> = async (
