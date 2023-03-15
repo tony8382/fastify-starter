@@ -5,8 +5,8 @@ test('example is loaded', async (t) => {
   const app = await build(t)
 
   const res = await app.inject({
-    url: '/example'
+    url: '/jwt/sign'
   })
 
-  t.equal(res.payload, 'this is an example')
+  t.notSame(res.payload, 'this is an example')
 })

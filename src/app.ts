@@ -2,9 +2,10 @@ import AutoLoad, { AutoloadPluginOptions } from '@fastify/autoload';
 import fastifyJwt from '@fastify/jwt';
 import { FastifyInstance, FastifyPluginAsync } from "fastify";
 import customHealthCheck from 'fastify-custom-healthcheck';
-import fastifyGracefulShutdown from 'fastify-graceful-shutdown';
+// import { fastifyGracefulShutdown } from 'fastify-graceful-shutdown';
 import fastifyMetric from 'fastify-metrics';
 import { join } from 'path';
+import fastifyGracefulExit from '@mgcrea/fastify-graceful-exit';
 
 export type AppOptions = {
   // Place your custom options for app below here.
@@ -16,7 +17,7 @@ export type AppOptions = {
 const options: AppOptions = {
   logger: {
     level: 'info',
-    file: 'logFile/app.log',
+    // file: 'logFile/app.log',
   }
 }
 
@@ -28,7 +29,8 @@ const app: FastifyPluginAsync<AppOptions> = async (
 
   fastify.register(fastifyMetric, { endpoint: '/metrics' })
   fastify.register(customHealthCheck, { path: '/health' })
-  fastify.register(fastifyGracefulShutdown)
+  fastify.register(fastifyGracefulExit, { timeout: 3000 })
+
   fastify.register(fastifyJwt, {
     secret: 'supersecret'
   })
@@ -43,12 +45,6 @@ const app: FastifyPluginAsync<AppOptions> = async (
     }
   })
 
-  fastify.after(() => {
-    fastify.gracefulShutdown((signal, next) => {
-      fastify.log.info("shout down!")
-      next()
-    })
-  })
 
   // Do not touch the following lines
 
