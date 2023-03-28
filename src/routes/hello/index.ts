@@ -29,21 +29,21 @@ const routeOptions: RouteShorthandOptions = {
 
 const example: FastifyPluginAsync = async (fastify: FastifyInstance, opts: FastifyServerOptions): Promise<void> => {
   fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
-    request.log.debug(null, "GGGGGGG: %s ", "123")
+    request.log.info(null, "GGGGGGG: %s ", "123")
     fastify.counter().inc()
     return 'this is an GGGFFGG'
   })
 
   fastify.post('/validate', routeOptions, async (request: FastifyRequest, reply: FastifyReply) => {
-    request.log.info("BODY INFO: %j ", request.body)
+    // request.log.info("BODY INFO: %j ", request.body)
     return 'this is an GGGFFGG'
   })
 
   fastify.get('/:name', async (request: HelloRequest, reply: FastifyReply) => {
     const { name } = request.params;
     const { test, test2 } = request.query;
-    request.log.info("AAA: %s", fastify.someSupport())
-    request.log.info("GGGGGGG: %s, test:%s, test2:%s ", name, test, test2)
+    // request.log.info("AAA: %s", fastify.someSupport())
+    // request.log.info("GGGGGGG: %s, test:%s, test2:%s ", name, test, test2)
     return {
       name,
       test,
@@ -51,8 +51,8 @@ const example: FastifyPluginAsync = async (fastify: FastifyInstance, opts: Fasti
     }
   })
   fastify.post('/submit', async (request: HelloSubmitRequest, reply: FastifyReply) => {
-    const body: HelloSubmitRequestBody = request.body
-    request.log.info("Submit: %s", JSON.stringify(body))
+    // const body: HelloSubmitRequestBody = request.body
+    // request.log.info("Submit: %s", JSON.stringify(body))
     return {
       ok: true
     }

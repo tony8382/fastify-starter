@@ -3,23 +3,20 @@ import fastifyJwt from '@fastify/jwt';
 import { FastifyInstance, FastifyPluginAsync } from "fastify";
 import customHealthCheck from 'fastify-custom-healthcheck';
 // import { fastifyGracefulShutdown } from 'fastify-graceful-shutdown';
+import fastifyGracefulExit from '@mgcrea/fastify-graceful-exit';
 import fastifyMetric from 'fastify-metrics';
 import { join } from 'path';
-import fastifyGracefulExit from '@mgcrea/fastify-graceful-exit';
 
 export type AppOptions = {
   // Place your custom options for app below here.
-  logger: any
 } & Partial<AutoloadPluginOptions>;
 
 
 // Pass --options via CLI arguments in command to enable these options.
 const options: AppOptions = {
-  logger: {
-    level: 'info',
-    // file: 'logFile/app.log',
-  }
 }
+
+
 
 const app: FastifyPluginAsync<AppOptions> = async (
   fastify: FastifyInstance,
@@ -37,7 +34,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
 
   fastify.addHook("onRequest", async (request, reply) => {
     try {
-      fastify.log.info("GGGG %s", request.routerPath);
+      // fastify.log.info("GGGG %s", request.routerPath);
       if ("/jwt/sign" == request.routerPath) return
       await request.jwtVerify()
     } catch (err) {
